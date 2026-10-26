@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Team Todos</title>
+  <style>
+    :root { --bg:#f7f7f5; --card:#fff; --text:#1b1d21; --muted:#6b7280; --line:#e6e6e3; --accent:#2f5bd3; --done:#9ca3af; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#111317; --card:#1a1d23; --text:#e8eaee; --muted:#9aa2af; --line:#2a2f38; --accent:#7c9bf2; --done:#5f6774; } }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { max-width:640px; margin:0 auto; padding:40px 16px; }
+    h1 { margin:0; font-size:1.6rem; }
+    .sub { color:var(--muted); margin:4px 0 24px; font-size:.92rem; display:flex; align-items:center; gap:8px; }
+    .dot { width:8px; height:8px; border-radius:50%; background:#22c55e; display:inline-block; }
+    form { display:flex; gap:8px; margin-bottom:16px; }
+    input[type=text] { flex:1; font:inherit; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--text); }
+    button { font:inherit; border:0; border-radius:10px; padding:10px 16px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+    ul { list-style:none; margin:0; padding:0; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+    li { display:flex; align-items:center; gap:12px; padding:12px 14px; border-top:1px solid var(--line); }
+    li:first-child { border-top:0; }
+    li input { width:18px; height:18px; accent-color:var(--accent); }
+    li .text { flex:1; overflow-wrap:anywhere; }
+    li.done .text { color:var(--done); text-decoration:line-through; }
+    li .who { color:var(--muted); font-size:.8rem; white-space:nowrap; }
+    li .del { background:none; color:var(--muted); padding:2px 8px; font-size:1.1rem; }
+    li .del:hover { color:#dc2626; }
+    .empty { padding:28px; text-align:center; color:var(--muted); }
+    .bar { display:flex; justify-content:space-between; color:var(--muted); font-size:.85rem; margin-top:10px; }
+    .bar button { background:none; color:var(--muted); padding:0; font-weight:500; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Team Todos</h1>
+    <div class="sub"><span class="dot" aria-hidden="true"></span><span id="who">Loading…</span></div>
+    <form id="add">
+      <input id="text" type="text" placeholder="What needs doing?" autocomplete="off" required maxlength="500" aria-label="New todo">
+      <button type="submit">Add</button>
+    </form>
+    <ul id="list"><li class="empty">Loading…</li></ul>
+    <div class="bar"><span id="count"></span><button id="clear" type="button">Clear completed</button></div>
+  </main>
+
+  <script src="/__apphost/sdk.js"></script>
+  <script>
+    const todos = apphost.collection('todos');
+    const list = document.getElementById('list');
+    let current = [];
+
+    apphost.me().then(me => {
+      document.getElementById('who').textContent = 'Live · signed in as ' + me.name;
+    });
+
+    function short(email) { return email ? email.split('@')[0] : ''; }
+
+    todos.live(docs => {
+      current = docs;
+      const open = docs.filter(d => !d.data.done).length;
+      document.getElementById('count').textContent = open + ' open · ' + (docs.length - open) + ' done';
+      if (!docs.length) {
+        list.replaceChildren(Object.assign(document.createElement('li'), { className: 'empty', textContent: 'Nothing to do. Add the first item!' }));
+        return;
+      }
+      list.replaceChildren(...docs.map(d => {
+        const li = document.createElement('li');
+        if (d.data.done) li.className = 'done';
+        const cb = Object.assign(document.createElement('input'), { type: 'checkbox', checked: !!d.data.done });
+        cb.setAttribute('aria-label', 'Done');
+        cb.onchange = () => todos.update(d.id, { done: cb.checked });
+        const text = Object.assign(document.createElement('span'), { className: 'text', textContent: d.data.text });
+        const who = Object.assign(document.createElement('span'), { className: 'who', textContent: short(d.created_by) });
+        const del = Object.assign(document.createElement('button'), { className: 'del', textContent: '×', title: 'Delete' });
+        del.onclick = () => todos.remove(d.id);
+        li.append(cb, text, who, del);
+        return li;
+      }));
+    });
+
+    document.getElementById('add').onsubmit = async e => {
+      e.preventDefault();
+      const input = document.getElementById('text');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      await todos.add({ text, done: false });
+    };
+
+    document.getElementById('clear').onclick = () =>
+      Promise.all(current.filter(d => d.data.done).map(d => todos.remove(d.id)));
+  </script>
+</body>
+</html>

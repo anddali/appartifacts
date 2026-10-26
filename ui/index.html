@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>apphost</title>
+  <link rel="icon" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/app.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#/"><span class="logo"></span>apphost</a>
+    <nav>
+      <a href="#/" data-nav="artifacts">Artifacts</a>
+      <a href="#/connect" data-nav="connect">Connect Claude</a>
+    </nav>
+    <div class="user">
+      <span id="user-name" class="muted"></span>
+      <form method="post" action="/auth/logout"><button type="submit" class="link">Sign out</button></form>
+    </div>
+  </header>
+  <main id="view" aria-live="polite"></main>
+  <div id="toast" role="status"></div>
+  <dialog id="dialog"></dialog>
+</body>
+</html>

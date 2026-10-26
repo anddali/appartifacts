@@ -1,0 +1,57 @@
+# Local development stack: Postgres, an S3 emulator and apphost with dev login.
+#   docker compose up --build
+#   open http://localhost:8080
+# Artifacts are served from http://<id>.localhost:8080 (browsers resolve *.localhost to 127.0.0.1).
+# If port 8080 is taken, run with APPHOST_PORT=8090 and change the two URLs below to match.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: apphost
+      POSTGRES_PASSWORD: apphost
+      POSTGRES_DB: apphost
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U apphost"]
+      interval: 2s
+      retries: 30
+
+  # S3-compatible emulator standing in for the real bucket.
+  s3:
+    image: adobe/s3mock:3.12.0
+    environment:
+      initialBuckets: apphost-artifacts
+      retainFilesOnExit: "true"
+      root: /s3data
+    ports: ["9090:9090"]
+    volumes: [s3data:/s3data]
+
+  apphost:
+    build: .
+    depends_on:
+      postgres: { condition: service_healthy }
+      s3: { condition: service_started }
+    ports: ["${APPHOST_PORT:-8080}:8080"]
+    environment:
+      DATABASE_URL: postgres://apphost:apphost@postgres:5432/apphost
+      APPHOST_PUBLIC_URL: http://localhost:8080
+      APPHOST_CONTENT_DOMAIN: localhost:8080
+      APPHOST_SECRET: local-development-secret-change-me-0123456789
+      APPHOST_DEV_LOGIN: "true"
+      APPHOST_STORAGE: s3
+      APPHOST_S3_BUCKET: apphost-artifacts
+      APPHOST_S3_FORCE_PATH_STYLE: "true"
+      AWS_ENDPOINT_URL: http://s3:9090
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      APPHOST_LOG_JSON: "false"
+      # To test real SSO locally, set these and remove APPHOST_DEV_LOGIN:
+      # ENTRA_TENANT_ID: ...
+      # ENTRA_CLIENT_ID: ...
+      # ENTRA_CLIENT_SECRET: ...
+
+volumes:
+  pgdata:
+  s3data:
