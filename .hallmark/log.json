@@ -1,0 +1,26 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "app",
+  "shape": "app screen",
+  "theme": "brand",
+  "axes": "dark/grotesk-sans/chromatic-mint",
+  "nav": "kept top bar, mint underline",
+  "footer": "none",
+  "imagery": "none",
+  "photos": [],
+  "signature": "hexagon field behind the shell, hex monogram per artifact",
+  "sections": [
+   "artifact list",
+   "artifact detail with fact rail",
+   "connect claude",
+   "standalone sign-in"
+  ],
+  "waived": [
+   "47c"
+  ],
+  "prompt": "internal portal for Claude-published artifacts: list, share, connect",
+  "date": "2026-10-28"
+ }
+]

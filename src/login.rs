@@ -54,7 +54,7 @@ async fn login(State(app): State<AppState>, Query(q): Query<LoginQuery>) -> AppR
     Ok(Html(page(
         "Sign in",
         &format!(
-            r#"<p class="warn">Development login — no password is checked. Do not enable in production.</p>
+            r#"<p class="warn">Development login: no password is checked. Do not enable in production.</p>
 <form method="post" action="/auth/dev-login">
   <input type="hidden" name="ret" value="{}">
   <label>Email <input name="email" type="email" required autofocus placeholder="you@example.com"></label>
@@ -143,12 +143,18 @@ pub fn error_page(status: StatusCode, title: &str, message: &str) -> Response {
     (status, Html(page(title, &format!("<p>{}</p><p><a href=\"/\">Back to apphost</a></p>", html_escape(message))))).into_response()
 }
 
+/// Hexagon field drawn behind the portal and the standalone pages.
+pub const BACKDROP: &str = include_str!("../ui/backdrop.svg");
+const LOGO: &str = r#"<svg class="logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polygon points="12,1.5 21.09,6.75 21.09,17.25 12,22.5 2.91,17.25 2.91,6.75"/><path d="M8 9.5h8M8 12.5h8M8 15.5h5"/></svg>"#;
+
 /// Minimal standalone page for server-rendered screens (login, consent, errors).
 pub fn page(title: &str, body: &str) -> String {
     format!(
         r#"<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{t} · apphost</title><link rel="icon" href="/assets/favicon.svg"><link rel="stylesheet" href="/assets/app.css"></head>
-<body class="standalone"><main class="card narrow"><div class="brand"><span class="logo"></span>apphost</div><h1>{t}</h1>{body}</main></body></html>"#,
-        t = html_escape(title)
+<body class="standalone">{backdrop}<main class="card narrow"><div class="brand">{logo}<span>apphost</span></div><h1>{t}</h1>{body}</main></body></html>"#,
+        t = html_escape(title),
+        backdrop = BACKDROP,
+        logo = LOGO,
     )
 }

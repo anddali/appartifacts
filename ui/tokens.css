@@ -1,0 +1,24 @@
+:root {
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem; --text-3xl: 2.074rem;
+  --text-display-s: 1.44rem; --text-display: 1.728rem; --text-section: 1.2rem; --text-title: 1rem; --text-lead: 1rem;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --color-error: oklch(72% 0.16 25); --color-success: oklch(82% 0.13 160);
+  --container: 1240px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+  --color-paper: oklch(16.5% 0.012 170); --color-paper-2: oklch(20.5% 0.014 170); --color-paper-3: oklch(25% 0.016 170);
+  --color-ink: oklch(95.5% 0.008 170); --color-ink-2: oklch(85% 0.012 170); --color-muted: oklch(71% 0.016 170);
+  --color-rule: oklch(30% 0.018 170); --color-rule-strong: oklch(38% 0.022 170); --color-field-edge: oklch(54% 0.02 170);
+  --color-accent: oklch(80.1% 0.153 173); --color-accent-ink: oklch(19% 0.035 173); --color-focus: oklch(80.1% 0.153 173);
+  --color-accent-soft: oklch(80.1% 0.153 173 / 0.12); --color-hex: oklch(80.1% 0.153 173 / 0.16); --color-hex-glow: oklch(80.1% 0.153 173 / 0.07); --color-hex-edge: oklch(80.1% 0.153 173 / 0.38);
+  --color-danger: oklch(72% 0.16 25); --color-danger-fill: oklch(68% 0.17 25); --color-danger-ink: oklch(18% 0.04 25); --color-danger-soft: oklch(72% 0.16 25 / 0.12);
+  --color-ok: oklch(82% 0.13 160);
+  --color-panel: oklch(20.5% 0.014 170 / 0.9); --color-bar: oklch(16.5% 0.012 170 / 0.84); --color-scrim: oklch(8% 0.01 170 / 0.66);
+  --font-display: "Segoe UI Variable Display", "Segoe UI", ui-sans-serif, system-ui, sans-serif; --font-body: "Segoe UI Variable Text", "Segoe UI", ui-sans-serif, system-ui, sans-serif; --font-outlier: var(--font-body);
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace;
+  --radius-card: 14px; --radius-control: 10px; --radius-pill: 999px; --rule-hair: 1px; --shadow-card: none;
+  --display-weight: 600; --bar-height: 64px;
+  color-scheme: dark;
+  --tracking-display: -0.02em;
+}

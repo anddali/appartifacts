@@ -23,6 +23,8 @@ use crate::{mcp, oauth};
 const INDEX_HTML: &str = include_str!("../ui/index.html");
 const APP_JS: &str = include_str!("../ui/app.js");
 const APP_CSS: &str = include_str!("../ui/app.css");
+const TOKENS_CSS: &str = include_str!("../ui/tokens.css");
+const BASE_CSS: &str = include_str!("../ui/base.css");
 const FAVICON: &str = include_str!("../ui/favicon.svg");
 
 pub fn router(app: AppState) -> Router {
@@ -54,6 +56,8 @@ pub fn router(app: AppState) -> Router {
         .route("/", get(index))
         .route("/assets/app.js", get(|| async { asset("text/javascript; charset=utf-8", APP_JS) }))
         .route("/assets/app.css", get(|| async { asset("text/css; charset=utf-8", APP_CSS) }))
+        .route("/assets/tokens.css", get(|| async { asset("text/css; charset=utf-8", TOKENS_CSS) }))
+        .route("/assets/base.css", get(|| async { asset("text/css; charset=utf-8", BASE_CSS) }))
         .route("/assets/favicon.svg", get(|| async { asset("image/svg+xml", FAVICON) }))
         .route("/content-auth", get(content_auth))
         .route("/healthz", get(healthz))
@@ -101,7 +105,7 @@ async fn index(State(app): State<AppState>, headers: HeaderMap) -> AppResult<Res
     if auth::session_user(&app, &headers).await?.is_none() {
         return Ok(login_redirect("/"));
     }
-    Ok(Html(INDEX_HTML).into_response())
+    Ok(Html(INDEX_HTML.replace("<!--backdrop-->", login::BACKDROP)).into_response())
 }
 
 #[derive(Deserialize)]

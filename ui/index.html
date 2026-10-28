@@ -3,21 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Find, open and share the pages your colleagues publish through Claude.">
   <title>apphost</title>
   <link rel="icon" href="/assets/favicon.svg">
   <link rel="stylesheet" href="/assets/app.css">
   <script src="/assets/app.js" defer></script>
 </head>
 <body>
+  <!--backdrop-->
   <header class="top">
-    <a class="brand" href="#/"><span class="logo"></span>apphost</a>
-    <nav>
-      <a href="#/" data-nav="artifacts">Artifacts</a>
-      <a href="#/connect" data-nav="connect">Connect Claude</a>
-    </nav>
-    <div class="user">
-      <span id="user-name" class="muted"></span>
-      <form method="post" action="/auth/logout"><button type="submit" class="link">Sign out</button></form>
+    <div class="top-inner">
+      <a class="brand" href="#/" aria-label="apphost, all artifacts">
+        <svg class="logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polygon points="12,1.5 21.09,6.75 21.09,17.25 12,22.5 2.91,17.25 2.91,6.75"/><path d="M8 9.5h8M8 12.5h8M8 15.5h5"/></svg>
+        <span>apphost</span>
+      </a>
+      <nav aria-label="Main">
+        <a href="#/" data-nav="artifacts">Artifacts</a>
+        <a href="#/connect" data-nav="connect">Connect Claude</a>
+      </nav>
+      <div class="user">
+        <span id="user-name" class="muted"></span>
+        <form method="post" action="/auth/logout"><button type="submit" class="ghost">Sign out</button></form>
+      </div>
     </div>
   </header>
   <main id="view" aria-live="polite"></main>
