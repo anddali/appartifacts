@@ -6,7 +6,7 @@
 /* Hallmark · dismissed 29 · the blur on .top, .panel and .list is a neutral frosted surface, no glow or colour wash · it keeps the hexagon field legible under apphost panels without competing with tables */
 /* Hallmark · answered F4 · button.danger lives only in the confirm dialog and .segmented button.on is a soft selected tint, so each screen keeps one filled mint primary */
 /* Hallmark · reworded "Option A — Sign in with SSO (recommended)" to "Sign in with SSO" plus a Recommended badge, and "Option B — Personal access token" to "Personal access token" · 19 names the em dash */
-/* Hallmark · answered motion · the honeycomb shimmer is decoration the user asked for: opacity only, faint, off under reduced motion */
+/* Hallmark · answered motion · the edge tracers are decoration the user asked for: faint, script-driven, off under reduced motion */
 /* Hallmark · waive 47c · the hexagon field is geometry on a geometry brand · the user asked for hexagons behind apphost and the brand mark is a hexagon */
 @import url("./tokens.css");
 @import url("./base.css");
@@ -32,33 +32,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.9em; }
 }
 /* pattern contents live in <defs>, so they are styled by pattern id */
 .backdrop #hx-comb path { fill: none; stroke: var(--color-hex); stroke-width: 1; }
-/* shimmer: cells sit on the comb grid; each has its own duration and offset so no two ever pulse together */
-.backdrop .shimmer polygon {
-  fill: var(--color-hex-glow); stroke: var(--color-hex-edge); stroke-width: 1;
-  opacity: 0; animation: shimmer 11s var(--ease-in-out) infinite;
-}
-.backdrop .shimmer polygon:nth-child(1) { animation-duration: 21.0s; animation-delay: -4.2s; }
-.backdrop .shimmer polygon:nth-child(2) { animation-duration: 11.1s; animation-delay: -7.2s; }
-.backdrop .shimmer polygon:nth-child(3) { animation-duration: 9.3s; animation-delay: -5.1s; }
-.backdrop .shimmer polygon:nth-child(4) { animation-duration: 14.1s; animation-delay: -3.1s; }
-.backdrop .shimmer polygon:nth-child(5) { animation-duration: 13.5s; animation-delay: -8.0s; }
-.backdrop .shimmer polygon:nth-child(6) { animation-duration: 13.2s; animation-delay: -10.7s; }
-.backdrop .shimmer polygon:nth-child(7) { animation-duration: 11.4s; animation-delay: -0.1s; }
-.backdrop .shimmer polygon:nth-child(8) { animation-duration: 10.8s; animation-delay: -8.7s; }
-.backdrop .shimmer polygon:nth-child(9) { animation-duration: 19.2s; animation-delay: -13.4s; }
-.backdrop .shimmer polygon:nth-child(10) { animation-duration: 10.5s; animation-delay: -3.6s; }
-.backdrop .shimmer polygon:nth-child(11) { animation-duration: 20.1s; animation-delay: -3.1s; }
-.backdrop .shimmer polygon:nth-child(12) { animation-duration: 17.1s; animation-delay: -16.4s; }
-.backdrop .shimmer polygon:nth-child(13) { animation-duration: 9.6s; animation-delay: -3.2s; }
-.backdrop .shimmer polygon:nth-child(14) { animation-duration: 23.1s; animation-delay: -2.1s; }
-.backdrop .shimmer polygon:nth-child(15) { animation-duration: 23.7s; animation-delay: -2.3s; }
-.backdrop .shimmer polygon:nth-child(16) { animation-duration: 12.9s; animation-delay: -10.9s; }
-.backdrop .shimmer polygon:nth-child(17) { animation-duration: 22.2s; animation-delay: -13.4s; }
-.backdrop .shimmer polygon:nth-child(18) { animation-duration: 18.6s; animation-delay: -15.0s; }
-.backdrop .shimmer polygon:nth-child(19) { animation-duration: 19.8s; animation-delay: -14.4s; }
-.backdrop .shimmer polygon:nth-child(20) { animation-duration: 22.8s; animation-delay: -12.2s; }
-@keyframes shimmer { 0%, 72%, 100% { opacity: 0; } 86% { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .backdrop .shimmer { display: none; } }
+/* traces: ui/backdrop.js lays a second canvas.backdrop over the comb and draws comets wandering its edges */
 /* luminance mask: light stops show the comb, transparent ones hide it */
 .backdrop .fade-on { stop-color: var(--color-ink); stop-opacity: 1; }
 .backdrop .fade-off { stop-color: var(--color-ink); stop-opacity: 0; }

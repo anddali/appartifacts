@@ -151,7 +151,7 @@ const LOGO: &str = r#"<svg class="logo" viewBox="0 0 24 24" aria-hidden="true" f
 pub fn page(title: &str, body: &str) -> String {
     format!(
         r#"<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{t} · apphost</title><link rel="icon" href="/assets/favicon.svg"><link rel="stylesheet" href="/assets/app.css"></head>
+<title>{t} · apphost</title><link rel="icon" href="/assets/favicon.svg"><link rel="stylesheet" href="/assets/app.css"><script src="/assets/backdrop.js" defer></script></head>
 <body class="standalone">{backdrop}<main class="card narrow"><div class="brand">{logo}<span>apphost</span></div><h1>{t}</h1>{body}</main></body></html>"#,
         t = html_escape(title),
         backdrop = BACKDROP,
